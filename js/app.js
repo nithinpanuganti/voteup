@@ -215,17 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
  * Initializes the language toggle button listeners.
  * Switches between 'en' and 'te' languages.
  */
-    initLanguageToggle();
-    initViewManagement();
-    initStepByStepGuide();
-    initEligibilityChecker();
-    initTimeline();
-    applyTranslations();
-});
-
-// =========================================
-// 1. Language Toggle & i18n
-// =========================================
 function initLanguageToggle() {
     const langToggleBtn = document.getElementById('lang-toggle');
     const langEnSpan = document.querySelector('.lang-en');

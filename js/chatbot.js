@@ -66,10 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
  * Initializes Chatbot UI elements and event listeners.
  */
 function initChatbotUI() {
-    initChatbotUI();
-});
-
-function initChatbotUI() {
     const fab = document.getElementById('chatbot-fab');
     const widget = document.getElementById('chatbot-widget');
     const closeBtn = document.querySelector('.btn-close-chat');
