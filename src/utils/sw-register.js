@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Registers the Service Worker for PWA offline capabilities.
  */

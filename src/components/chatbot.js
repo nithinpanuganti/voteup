@@ -125,9 +125,10 @@ function handleUserMessage() {
  */
 function generateBotResponse(userInput) {
     const text = userInput.toLowerCase();
-    const currentLexicon = botResponses[currentLang] || botResponses['en'];
+    const lang = (typeof window !== 'undefined' && window.currentLang) ? window.currentLang : 'en';
+    const currentLexicon = botResponses[lang] || botResponses['en'];
     
-    // Keyword Matching Logic
+    // Intent matching logic
     for (const intent of currentLexicon.intents) {
         // If any keyword is found within the user input
         if (intent.keywords.some(keyword => text.includes(keyword.toLowerCase()))) {

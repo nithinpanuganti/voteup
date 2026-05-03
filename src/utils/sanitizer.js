@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Utility functions for security and sanitization.
  */
