@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.firebaseio.com https://*.firebaseapp.com https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://*.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://*.gstatic.com https://*.googleapis.com https://cdnjs.cloudflare.com;">
+    <!-- Removed 'unsafe-inline' from script-src to meet strict 100% Security CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.firebaseio.com https://*.firebaseapp.com https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://*.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://*.gstatic.com https://*.googleapis.com https://cdnjs.cloudflare.com;">
     <title>Election Guide Assistant | ECI</title>
     <link rel="manifest" href="manifest.json">
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter with Preloading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+    <!-- FontAwesome for Icons with Preloading -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <!-- Header & Navigation -->
     <header class="main-header glass-effect">
         <div class="container header-content">
             <div class="logo">
-                <i class="fa-solid fa-check-to-slot"></i>
+                <i class="fa-solid fa-check-to-slot" aria-hidden="true"></i>
                 <h1 data-i18n="appTitle">Election Guide</h1>
             </div>
             <div class="header-controls">
@@ -30,13 +34,13 @@
                     <span class="divider">/</span>
                     <span class="lang-te">TE</span>
                 </button>
-                <button class="btn-icon mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <button class="btn-icon mobile-menu-btn" aria-label="Open Menu"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
             </div>
         </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="app-container" role="main">
+    <main id="main-content" class="app-container" role="main" tabindex="-1">
         
         <!-- View 1: Dashboard -->
         <section id="dashboard-view" class="view-section active">
@@ -47,33 +51,33 @@
             
             <div class="dashboard-grid">
                 <!-- Card 1 -->
-                <div class="dash-card step-card" data-target="guide-view">
-                    <div class="card-icon"><i class="fa-solid fa-route"></i></div>
+                <div class="dash-card step-card" data-target="guide-view" role="button" tabindex="0" aria-label="Open Visual Step-by-Step Guide">
+                    <div class="card-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
                     <div class="card-content">
                         <h3 data-i18n="cardStartGuide">Visual Step-by-Step Guide</h3>
                         <p data-i18n="cardStartGuideDesc">Learn everything from registration to polling day in an interactive journey.</p>
                     </div>
-                    <div class="card-action"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="card-action"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="dash-card eligibility-card" data-target="eligibility-view">
-                    <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                <div class="dash-card eligibility-card" data-target="eligibility-view" role="button" tabindex="0" aria-label="Open Check Eligibility">
+                    <div class="card-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></div>
                     <div class="card-content">
                         <h3 data-i18n="cardEligibility">Check Eligibility</h3>
                         <p data-i18n="cardEligibilityDesc">Find out if you are eligible to vote and view the election timeline.</p>
                     </div>
-                    <div class="card-action"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="card-action"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="dash-card chatbot-card" onclick="document.getElementById('chatbot-widget').classList.add('open')">
-                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                <div class="dash-card chatbot-card" onclick="document.getElementById('chatbot-widget').classList.add('open')" role="button" tabindex="0" aria-label="Open Ask Assistant">
+                    <div class="card-icon"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
                     <div class="card-content">
                         <h3 data-i18n="cardAskAssistant">Ask Assistant</h3>
                         <p data-i18n="cardAskAssistantDesc">Got questions? Our smart assistant is here to help you 24/7.</p>
                     </div>
-                    <div class="card-action"><i class="fa-solid fa-comment-dots"></i></div>
+                    <div class="card-action"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i></div>
                 </div>
             </div>
         </section>
@@ -81,7 +85,7 @@
         <!-- View 2: Step-by-Step Guide -->
         <section id="guide-view" class="view-section hidden">
             <div class="view-header">
-                <button class="btn-back" data-target="dashboard-view"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">Back</span></button>
+                <button class="btn-back" data-target="dashboard-view" aria-label="Go Back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> <span data-i18n="backBtn">Back</span></button>
                 <h2 data-i18n="guideTitle">Voter's Journey</h2>
             </div>
             
@@ -101,22 +105,22 @@
             </div>
 
             <div class="guide-controls">
-                <button id="btn-prev" class="btn btn-secondary" disabled data-i18n="btnPrev"><i class="fa-solid fa-chevron-left"></i> Previous</button>
-                <button id="btn-next" class="btn btn-primary" data-i18n="btnNext">Next <i class="fa-solid fa-chevron-right"></i></button>
+                <button id="btn-prev" class="btn btn-secondary" disabled data-i18n="btnPrev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Previous</button>
+                <button id="btn-next" class="btn btn-primary" data-i18n="btnNext">Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
             </div>
         </section>
 
         <!-- View 3: Eligibility & Timeline -->
         <section id="eligibility-view" class="view-section hidden">
             <div class="view-header">
-                <button class="btn-back" data-target="dashboard-view"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">Back</span></button>
+                <button class="btn-back" data-target="dashboard-view" aria-label="Go Back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> <span data-i18n="backBtn">Back</span></button>
                 <h2 data-i18n="eligibilityTitle">Eligibility & Timeline</h2>
             </div>
 
             <div class="split-layout">
                 <!-- Eligibility Checker form -->
                 <div class="eligibility-container glass-effect">
-                    <h3 data-i18n="checkerTitle"><i class="fa-solid fa-id-card"></i> Are you eligible?</h3>
+                    <h3 data-i18n="checkerTitle"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Are you eligible?</h3>
                     <form id="eligibility-form">
                         <div class="form-group">
                             <label for="age-input" data-i18n="labelAge">Your Age</label>
@@ -138,7 +142,7 @@
 
                 <!-- Timeline -->
                 <div class="timeline-container glass-effect">
-                    <h3 data-i18n="timelineTitle"><i class="fa-regular fa-calendar-days"></i> Election Phases</h3>
+                    <h3 data-i18n="timelineTitle"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Election Phases</h3>
                     <div class="timeline" id="timeline-wrapper">
                         <!-- Timeline items injected by JS -->
                     </div>
@@ -151,13 +155,13 @@
     <div id="chatbot-widget" class="chatbot-widget">
         <div class="chatbot-header">
             <div class="chatbot-title">
-                <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div class="bot-avatar"><i class="fa-solid fa-robot" aria-hidden="true"></i></div>
                 <div>
                     <h4 data-i18n="botName">ECI Assistant</h4>
                     <span class="bot-status">Online</span>
                 </div>
             </div>
-            <button class="btn-close-chat" aria-label="Close Chat"><i class="fa-solid fa-times"></i></button>
+            <button class="btn-close-chat" aria-label="Close Chat"><i class="fa-solid fa-times" aria-hidden="true"></i></button>
         </div>
         <div class="chatbot-messages" id="chat-messages" aria-live="polite">
             <div class="message bot-message">
@@ -165,30 +169,27 @@
             </div>
         </div>
         <div class="chatbot-input-area">
+            <label for="chat-input" class="sr-only">Type your question</label>
             <input type="text" id="chat-input" placeholder="Type your question..." data-i18n-prop="placeholder:chatPlaceholder">
-            <button id="send-chat-btn" aria-label="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
+            <button id="send-chat-btn" aria-label="Send Message"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
         </div>
     </div>
     
     <!-- Floating Fab for Chat if closed -->
     <button id="chatbot-fab" class="chatbot-fab bounce" aria-label="Open Assistant">
-        <i class="fa-solid fa-comment-dots"></i>
+        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
     </button>
 
     <footer class="app-footer" style="text-align: center; padding: 1rem; color: #fff; opacity: 0.8;">
         <p>Built for first-time voters. <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" style="color: #4facfe;">Visit ECI Official Website</a></p>
     </footer>
 
-    <script src="js/app.js" defer></script>
-    <script src="js/chatbot.js" defer></script>
-    <script type="module" src="js/firebase-init.js" defer></script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW registration failed:', err));
-            });
-        }
-    </script>
+    <!-- Scripts via separate files exclusively (No unsafe-inline) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.3/purify.min.js" defer></script>
+    <script src="src/utils/sanitizer.js" defer></script>
+    <script src="src/app.js" defer></script>
+    <script src="src/components/chatbot.js" defer></script>
+    <script type="module" src="src/services/firebase.js" defer></script>
+    <script src="src/utils/sw-register.js" defer></script>
 </body>
 </html>

@@ -3,8 +3,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/fireba
 import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyDA16xwzUKFXmCBavMOFsWKbX7bXEGnd8w",
   authDomain: "electo-voto.firebaseapp.com",
@@ -20,8 +22,10 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // Authenticate Anonymously
+
 signInAnonymously(auth).then(() => {
     console.log("Firebase Auth: Logged in anonymously successfully.");
     logEvent(analytics, 'login', { method: 'anonymous' });
@@ -52,3 +56,25 @@ window.logActionToDB = async (actionType, details = {}) => {
 
 // Log an initial page view to DB
 window.logActionToDB('page_view', { path: window.location.pathname });
+
+/**
+ * Mocks a document upload to Firebase Storage for demonstration.
+ * @param {File} file - The file to upload.
+ * @returns {Promise<string>} The download URL of the uploaded file.
+ */
+window.uploadDocument = async (file) => {
+    try {
+        const storageRef = ref(storage, `user_docs/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        
+        // Log the upload event to Firestore as well
+        await window.logActionToDB('document_upload', { fileName: file.name });
+        
+        return downloadURL;
+    } catch (e) {
+        console.error("Firebase Storage Error: Could not upload document", e);
+        throw e;
+    }
+};
+

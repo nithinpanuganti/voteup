@@ -1,18 +1,49 @@
-const { APP_DATA } = require('../js/app');
+/**
+ * @jest-environment jsdom
+ */
+const { APP_DATA, switchToView } = require('../src/app');
 
-describe('App Logic', () => {
+describe('App Logic & DOM Integration', () => {
+    beforeEach(() => {
+        // Setup a mock DOM structure for testing view switching
+        document.body.innerHTML = `
+            <section id="dashboard-view" class="view-section active"></section>
+            <section id="guide-view" class="view-section hidden">
+                <h2 id="guide-header">Voter's Journey</h2>
+            </section>
+        `;
+        
+        // Mock global window properties
+        window.logActionToDB = jest.fn();
+    });
+
     test('APP_DATA contains english and telugu dictionaries', () => {
         expect(APP_DATA).toHaveProperty('en');
         expect(APP_DATA).toHaveProperty('te');
     });
 
-    test('English dictionary has proper structure', () => {
-        expect(APP_DATA.en.steps).toBeDefined();
-        expect(APP_DATA.en.timeline).toBeDefined();
-        expect(APP_DATA.en.steps.length).toBeGreaterThan(0);
+    test('switchToView hides current view and shows target view', () => {
+        switchToView('guide-view');
+        
+        const dashboard = document.getElementById('dashboard-view');
+        const guide = document.getElementById('guide-view');
+        
+        expect(dashboard.classList.contains('hidden')).toBe(true);
+        expect(guide.classList.contains('active')).toBe(true);
+        expect(guide.classList.contains('hidden')).toBe(false);
     });
 
-    // In a real environment, we would use JSDOM to test DOM manipulation functions
-    // like switchToView and renderCurrentStep, but testing APP_DATA serves as a basic
-    // code quality / logic test for the autograder.
+    test('switchToView shifts focus to target heading for accessibility', () => {
+        switchToView('guide-view');
+        const heading = document.getElementById('guide-header');
+        
+        // Check if focus was managed
+        expect(document.activeElement).toBe(heading);
+        expect(heading.getAttribute('tabindex')).toBe('-1');
+    });
+
+    test('switchToView logs the action to Firebase if available', () => {
+        switchToView('guide-view');
+        expect(window.logActionToDB).toHaveBeenCalledWith('view_switched', { view: 'guide-view' });
+    });
 });

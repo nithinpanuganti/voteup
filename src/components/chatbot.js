@@ -92,17 +92,6 @@ function initChatbotUI() {
 }
 
 /**
- * Sanitizes user input to prevent XSS.
- * @param {string} str - The string to sanitize.
- * @returns {string} The sanitized string.
- */
-function sanitizeInput(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
-
-/**
  * Handles the user submitting a message in the chat.
  */
 function handleUserMessage() {
@@ -111,7 +100,7 @@ function handleUserMessage() {
     
     if (messageText === "") return;
 
-    const sanitizedText = sanitizeInput(messageText);
+    const sanitizedText = (typeof window !== 'undefined' && window.AppSecurity) ? window.AppSecurity.sanitize(messageText) : messageText;
 
     // 1. Add User Message to UI
     appendMessage('user', sanitizedText);
@@ -176,7 +165,6 @@ function appendMessage(sender, text) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         generateBotResponse,
-        sanitizeInput,
         botResponses
     };
 }

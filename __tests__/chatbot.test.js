@@ -1,9 +1,9 @@
-const { generateBotResponse, sanitizeInput, botResponses } = require('../js/chatbot');
+/**
+ * @jest-environment jsdom
+ */
+const { generateBotResponse, botResponses } = require('../src/components/chatbot');
 
 describe('Chatbot Logic', () => {
-    // We mock currentLang implicitly since it's defined in the global scope in app.js
-    // but in test environment without app.js it might fail.
-    // However, chatbot.js handles fallback gracefully.
     beforeAll(() => {
         global.currentLang = 'en';
     });
@@ -14,14 +14,13 @@ describe('Chatbot Logic', () => {
     });
 
     test('generateBotResponse should return fallback for unknown keywords', () => {
-        const response = generateBotResponse('what is the capital of India?');
+        const response = generateBotResponse('random text that should not match');
         expect(response).toBe(botResponses.en.fallback);
     });
 
-    test('sanitizeInput should escape HTML tags', () => {
-        const input = '<script>alert(1)</script>';
-        const sanitized = sanitizeInput(input);
-        expect(sanitized).not.toContain('<script>');
-        expect(sanitized).toContain('&lt;script&gt;');
+    test('generateBotResponse should work for Telugu when language is switched', () => {
+        global.currentLang = 'te';
+        const response = generateBotResponse('నమోదు'); // Registration in Telugu
+        expect(response).toContain('ఫారం 6');
     });
 });
