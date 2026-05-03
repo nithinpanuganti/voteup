@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Guide Assistant | ECI</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    
+    <!-- Header & Navigation -->
+    <header class="main-header glass-effect">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fa-solid fa-check-to-slot"></i>
+                <h1 data-i18n="appTitle">Election Guide</h1>
+            </div>
+            <div class="header-controls">
+                <button id="lang-toggle" class="btn-toggle" aria-label="Toggle Language">
+                    <span class="lang-en active">EN</span>
+                    <span class="divider">/</span>
+                    <span class="lang-te">TE</span>
+                </button>
+                <button class="btn-icon mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-container">
+        
+        <!-- View 1: Dashboard -->
+        <section id="dashboard-view" class="view-section active">
+            <div class="hero-section">
+                <h2 class="hero-title" data-i18n="heroTitle">Your Voice. Your Vote. Your Future.</h2>
+                <p class="hero-subtitle" data-i18n="heroSubtitle">The official guide for first-time voters under the Election Commission of India (ECI).</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Card 1 -->
+                <div class="dash-card step-card" data-target="guide-view">
+                    <div class="card-icon"><i class="fa-solid fa-route"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="cardStartGuide">Visual Step-by-Step Guide</h3>
+                        <p data-i18n="cardStartGuideDesc">Learn everything from registration to polling day in an interactive journey.</p>
+                    </div>
+                    <div class="card-action"><i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="dash-card eligibility-card" data-target="eligibility-view">
+                    <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="cardEligibility">Check Eligibility</h3>
+                        <p data-i18n="cardEligibilityDesc">Find out if you are eligible to vote and view the election timeline.</p>
+                    </div>
+                    <div class="card-action"><i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="dash-card chatbot-card" onclick="document.getElementById('chatbot-widget').classList.add('open')">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="cardAskAssistant">Ask Assistant</h3>
+                        <p data-i18n="cardAskAssistantDesc">Got questions? Our smart assistant is here to help you 24/7.</p>
+                    </div>
+                    <div class="card-action"><i class="fa-solid fa-comment-dots"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Step-by-Step Guide -->
+        <section id="guide-view" class="view-section hidden">
+            <div class="view-header">
+                <button class="btn-back" data-target="dashboard-view"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">Back</span></button>
+                <h2 data-i18n="guideTitle">Voter's Journey</h2>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div class="progress-fill" id="guide-progress-fill"></div>
+                </div>
+                <div class="step-nodes" id="guide-nodes">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- Dynamic Content -->
+            <div class="guide-content-card glass-effect" id="guide-content-card">
+                <!-- Content injected by JS -->
+            </div>
+
+            <div class="guide-controls">
+                <button id="btn-prev" class="btn btn-secondary" disabled data-i18n="btnPrev"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                <button id="btn-next" class="btn btn-primary" data-i18n="btnNext">Next <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- View 3: Eligibility & Timeline -->
+        <section id="eligibility-view" class="view-section hidden">
+            <div class="view-header">
+                <button class="btn-back" data-target="dashboard-view"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">Back</span></button>
+                <h2 data-i18n="eligibilityTitle">Eligibility & Timeline</h2>
+            </div>
+
+            <div class="split-layout">
+                <!-- Eligibility Checker form -->
+                <div class="eligibility-container glass-effect">
+                    <h3 data-i18n="checkerTitle"><i class="fa-solid fa-id-card"></i> Are you eligible?</h3>
+                    <form id="eligibility-form">
+                        <div class="form-group">
+                            <label for="age-input" data-i18n="labelAge">Your Age</label>
+                            <input type="number" id="age-input" min="1" max="120" placeholder="e.g. 18" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="citizen-input" required>
+                                <span class="custom-checkbox"></span>
+                                <span data-i18n="labelCitizen">I am an Indian Citizen</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" data-i18n="btnCheck">Check Status</button>
+                    </form>
+                    <div id="eligibility-result" class="result-message hidden">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline-container glass-effect">
+                    <h3 data-i18n="timelineTitle"><i class="fa-regular fa-calendar-days"></i> Election Phases</h3>
+                    <div class="timeline" id="timeline-wrapper">
+                        <!-- Timeline items injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <h4 data-i18n="botName">ECI Assistant</h4>
+                    <span class="bot-status">Online</span>
+                </div>
+            </div>
+            <button class="btn-close-chat" aria-label="Close Chat"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="msg-content" data-i18n="botWelcome">Hello! I am your Election Guide Assistant. How can I help you today? (Try asking about Registration, Eligibility, or Documents)</div>
+            </div>
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chat-input" placeholder="Type your question..." data-i18n-prop="placeholder:chatPlaceholder">
+            <button id="send-chat-btn" aria-label="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <!-- Floating Fab for Chat if closed -->
+    <button id="chatbot-fab" class="chatbot-fab bounce" aria-label="Open Assistant">
+        <i class="fa-solid fa-comment-dots"></i>
+    </button>
+
+    <script src="js/app.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
