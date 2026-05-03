@@ -1,3 +1,5 @@
+"use strict";
+
 // =========================================
 // Chatbot Logic
 // =========================================
@@ -60,6 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initChatbotUI();
 });
 
+/**
+ * Initializes Chatbot UI elements and event listeners.
+ */
+function initChatbotUI() {
+    initChatbotUI();
+});
+
 function initChatbotUI() {
     const fab = document.getElementById('chatbot-fab');
     const widget = document.getElementById('chatbot-widget');
@@ -86,23 +95,49 @@ function initChatbotUI() {
     });
 }
 
+/**
+ * Sanitizes user input to prevent XSS.
+ * @param {string} str - The string to sanitize.
+ * @returns {string} The sanitized string.
+ */
+function sanitizeInput(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+/**
+ * Handles the user submitting a message in the chat.
+ */
 function handleUserMessage() {
     const inputField = document.getElementById('chat-input');
     const messageText = inputField.value.trim();
     
     if (messageText === "") return;
 
+    const sanitizedText = sanitizeInput(messageText);
+
     // 1. Add User Message to UI
-    appendMessage('user', messageText);
+    appendMessage('user', sanitizedText);
     inputField.value = '';
+
+    // Firebase Logging
+    if (window.logActionToDB) {
+        window.logActionToDB('chat_message_sent', { text: messageText });
+    }
 
     // 2. Determine Bot Response with slight delay for realism
     setTimeout(() => {
-        const response = generateBotResponse(messageText);
+        const response = generateBotResponse(sanitizedText);
         appendMessage('bot', response);
     }, 500);
 }
 
+/**
+ * Generates a bot response based on user input intent matching.
+ * @param {string} userInput - The user's message.
+ * @returns {string} The appropriate bot response.
+ */
 function generateBotResponse(userInput) {
     const text = userInput.toLowerCase();
     const currentLexicon = botResponses[currentLang] || botResponses['en'];
@@ -119,6 +154,11 @@ function generateBotResponse(userInput) {
     return currentLexicon.fallback;
 }
 
+/**
+ * Appends a message to the chatbot UI.
+ * @param {string} sender - 'user' or 'bot'.
+ * @param {string} text - The message text.
+ */
 function appendMessage(sender, text) {
     const chatMessages = document.getElementById('chat-messages');
     
@@ -134,4 +174,13 @@ function appendMessage(sender, text) {
     
     // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Conditionally export for testing in Node.js / Jest
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        generateBotResponse,
+        sanitizeInput,
+        botResponses
+    };
 }

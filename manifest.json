@@ -1,0 +1,16 @@
+{
+  "name": "Election Guide Assistant",
+  "short_name": "VoteGuide",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4facfe",
+  "description": "The official guide for first-time voters.",
+  "icons": [
+    {
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/check-to-slot.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

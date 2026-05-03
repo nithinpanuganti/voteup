@@ -1,3 +1,5 @@
+"use strict";
+
 // =========================================
 // Global Application Data (EN / TE)
 // =========================================
@@ -209,6 +211,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // =========================================
 // 1. Language Toggle & i18n
 // =========================================
+/**
+ * Initializes the language toggle button listeners.
+ * Switches between 'en' and 'te' languages.
+ */
+    initLanguageToggle();
+    initViewManagement();
+    initStepByStepGuide();
+    initEligibilityChecker();
+    initTimeline();
+    applyTranslations();
+});
+
+// =========================================
+// 1. Language Toggle & i18n
+// =========================================
 function initLanguageToggle() {
     const langToggleBtn = document.getElementById('lang-toggle');
     const langEnSpan = document.querySelector('.lang-en');
@@ -239,6 +256,9 @@ function initLanguageToggle() {
     });
 }
 
+/**
+ * Applies translations to all elements with data-i18n attributes based on the current language.
+ */
 function applyTranslations() {
     const d = APP_DATA[currentLang];
     
@@ -267,6 +287,9 @@ function applyTranslations() {
 // =========================================
 // 2. View Management
 // =========================================
+/**
+ * Initializes view management listeners for dashboard cards and back buttons.
+ */
 function initViewManagement() {
     // Navigate from Dashboard to other Views
     document.querySelectorAll('.dash-card[data-target]').forEach(card => {
@@ -285,6 +308,10 @@ function initViewManagement() {
     });
 }
 
+/**
+ * Switches the active view section and manages focus for accessibility.
+ * @param {string} viewId - The ID of the view to display.
+ */
 function switchToView(viewId) {
     // Hide all views
     document.querySelectorAll('.view-section').forEach(section => {
@@ -297,12 +324,27 @@ function switchToView(viewId) {
     if(target) {
         target.classList.remove('hidden');
         target.classList.add('active');
+        
+        // Accessibility: Focus management
+        const firstHeading = target.querySelector('h2, h3');
+        if (firstHeading) {
+            firstHeading.setAttribute('tabindex', '-1');
+            firstHeading.focus();
+        }
+        
+        // Firebase Logging
+        if (window.logActionToDB) {
+            window.logActionToDB('view_switched', { view: viewId });
+        }
     }
 }
 
 // =========================================
 // 3. Step-by-Step Guide
 // =========================================
+/**
+ * Initializes the Step-by-Step Guide view, buttons, and progress nodes.
+ */
 function initStepByStepGuide() {
     const btnNext = document.getElementById('btn-next');
     const btnPrev = document.getElementById('btn-prev');
@@ -337,6 +379,9 @@ function initStepByStepGuide() {
     });
 }
 
+/**
+ * Renders the content, progress bar, and buttons for the current step in the guide.
+ */
 function renderCurrentStep() {
     const steps = APP_DATA[currentLang].steps;
     const currentStep = steps[currentStepIndex];
@@ -398,6 +443,9 @@ function renderCurrentStep() {
 // =========================================
 // 4. Eligibility Checker & Timeline
 // =========================================
+/**
+ * Initializes the eligibility checker form and handles submissions.
+ */
 function initEligibilityChecker() {
     const form = document.getElementById('eligibility-form');
     const resultDiv = document.getElementById('eligibility-result');
@@ -422,10 +470,18 @@ function initEligibilityChecker() {
             resultDiv.innerHTML = `<i class="fa-solid fa-check-circle fa-lg mt-1"></i> <div>${d.msgEligible}</div>`;
         }
         
+        // Firebase Logging
+        if (window.logActionToDB) {
+            window.logActionToDB('eligibility_checked', { age: age, isCitizen: isCitizen, eligible: (isCitizen && age >= 18) });
+        }
+        
         resultDiv.classList.remove('hidden');
     });
 }
 
+/**
+ * Initializes the timeline component and populates it with data.
+ */
 function initTimeline() {
     const timelineData = APP_DATA[currentLang].timeline;
     const wrapper = document.getElementById('timeline-wrapper');
@@ -448,4 +504,13 @@ function initTimeline() {
         `;
         wrapper.appendChild(div);
     });
+}
+
+// Conditionally export for testing in Node.js / Jest
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        APP_DATA,
+        switchToView,
+        renderCurrentStep
+    };
 }
